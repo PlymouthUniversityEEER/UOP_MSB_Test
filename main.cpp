@@ -65,7 +65,7 @@ int main()
     disp.cls();
 
     // Play a short tone on the buzzer
-    buzz.playTone("C", Buzzer::MIDDLE_OCTAVE);
+    buzz.playTone("C", MIDDLE_OCTAVE);
     ThisThread::sleep_for(200ms);
     buzz.rest();
 
@@ -95,7 +95,7 @@ void button_thread(){
     /********* Buttons *********/
 
    while(true){
-        char switchNum=' ';
+        char switchNum=0;
         // Check for button press  
         if (buttons.Button1.read())switchNum='A';
         if (buttons.Button2.read())switchNum='B';
@@ -110,7 +110,7 @@ void button_thread(){
             char sw[1];
             sw[0] = switchNum;                          // Play a note which corresponds to the
             ThisThread::sleep_for(20ms);                // switch name (Middle Octave)
-            buzz.playTone(sw,Buzzer::MIDDLE_OCTAVE);
+            buzz.playTone(sw,MIDDLE_OCTAVE);
         }
         // Sample the associated ADC Channel
         switch(switchNum){
@@ -319,12 +319,23 @@ void sevenseg_count_thread(){
 
     latchedLEDs.sevenSegclear();
     unsigned char counter=0;
+    float fl_counter = 0.0f;
     while(true){
-        latchedLEDs.enable(true);
-        latchedLEDs.write_seven_seg(counter);
-        counter++;
-        if (counter>99){counter=0;}
-        thread_sleep_for(250);
+        while(fl_counter<10.0f){
+            latchedLEDs.enable(true);
+            latchedLEDs.write_seven_seg((float)fl_counter);
+            fl_counter= fl_counter + 0.1f;
+            thread_sleep_for(250);
+        }
+        fl_counter = 0.0f;
+
+        while(counter<100){
+            latchedLEDs.enable(true);
+            latchedLEDs.write_seven_seg(counter);
+            counter++;
+            thread_sleep_for(250);
+        }
+        counter = 0;
     }
 }
 
