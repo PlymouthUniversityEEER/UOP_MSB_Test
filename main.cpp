@@ -29,7 +29,6 @@ Thread dac_thr;
 Thread motion_thr;
 Thread button_thr;
 
-using namespace uop_msb;
 
 int main()
 {
