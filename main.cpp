@@ -32,21 +32,28 @@ Thread button_thr;
 
 int main()
 {
+
     printf("\n\nStarting...\n");
 
     /*********SD Card*********/
+    if(sd.card_inserted()){
+        // Create test string 
+        char test_string[] = "This is the Plymouth University EEER Module Support Board Test\n";
+        // Write the string to a file
+        sd.write_file("msb_test.txt", test_string,true);
+        // print the contents of the file we've just written to
+        sd.print_file("msb_test.txt",true);
+        // Copy the contents back into another array
+        char array_to_copy_to[256];
+        sd.copy_file("msb_test.txt", array_to_copy_to,sizeof(array_to_copy_to),true);
+        // Print the new array
+        printf("%s\n",array_to_copy_to);
+    }
+    else{
+        printf("SD card not detected...\r\n");
+    }
     
-    // Create test string 
-    char test_string[] = "This is the Plymouth University EEER Module Support Board Test\n";
-    // Write the string to a file
-    sd.write_file("msb_test.txt", test_string,true);
-    // print the contents of the file we've just written to
-    sd.print_file("msb_test.txt",true);
-    // Copy the contents back into another array
-    char array_to_copy_to[256];
-    sd.copy_file("msb_test.txt", array_to_copy_to,sizeof(array_to_copy_to),true);
-    // Print the new array
-    printf("%s\n",array_to_copy_to);
+
 
     // Clear the seven segment display
     latchedLEDs.sevenSegclear();
