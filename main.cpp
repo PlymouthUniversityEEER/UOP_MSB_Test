@@ -36,6 +36,7 @@ int main()
     printf("\n\nStarting...\n");
 
     /*********SD Card*********/
+    #ifdef USING_SD_CARD
     if(sd.card_inserted()){
         // Create test string 
         char test_string[] = "This is the Plymouth University EEER Module Support Board Test\n";
@@ -52,6 +53,7 @@ int main()
     else{
         printf("SD card not detected...\r\n");
     }
+    #endif
     
 
 
