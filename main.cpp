@@ -64,13 +64,13 @@ int main()
 
     // Display welcome messages
     printf("Starting Program..\n");
-    disp.cls();
-    disp.home();
-    disp.printf("   SECaM PU");
-    disp.locate(1,0);
-    disp.printf("   MSB Test");
+    lcd.cls();
+    lcd.home();
+    lcd.printf("   SECaM PU");
+    lcd.locate(1,0);
+    lcd.printf("   MSB Test");
     ThisThread::sleep_for(2000ms);
-    disp.cls();
+    lcd.cls();
 
     // Play a short tone on the buzzer
     buzz.playTone("C", MIDDLE_OCTAVE);
@@ -112,9 +112,9 @@ void button_thread(){
 
         // Notify of button press on LCD and play a tone
         if(switchNum){
-            disp.cls();                                 // clear display
-            disp.locate(0,1);                           
-            disp.printf("  Switch = %c",switchNum);     // write the switch name
+            lcd.cls();                                 // clear display
+            lcd.locate(0,1);                           
+            lcd.printf("  Switch = %c",switchNum);     // write the switch name
             char sw[1];
             sw[0] = switchNum;                          // Play a note which corresponds to the
             ThisThread::sleep_for(20ms);                // switch name (Middle Octave)
@@ -122,11 +122,11 @@ void button_thread(){
         }
         // Sample the associated ADC Channel
         switch(switchNum){
-            case 'A': disp.locate(1,0);disp.printf("  SIG IN %4.2fV",sample_adc(0));break;
-            case 'B': disp.locate(1,0);disp.printf("  POT IN %4.2fV",sample_adc(1));break;
-            case 'C': disp.locate(1,0);disp.printf("  LDR IN %4.2fV",sample_adc(2));break;
-            case 'D': disp.locate(1,0);disp.printf("  MIC IN %4.2fV",sample_adc(3));break;
-            default:disp.cls();disp.locate(0,1);disp.printf(" Press Switch");break;
+            case 'A': lcd.locate(1,0);lcd.printf("  SIG IN %4.2fV",sample_adc(0));break;
+            case 'B': lcd.locate(1,0);lcd.printf("  POT IN %4.2fV",sample_adc(1));break;
+            case 'C': lcd.locate(1,0);lcd.printf("  LDR IN %4.2fV",sample_adc(2));break;
+            case 'D': lcd.locate(1,0);lcd.printf("  MIC IN %4.2fV",sample_adc(3));break;
+            default:lcd.cls();lcd.locate(0,1);lcd.printf(" Press Switch");break;
         }
         // Stop the buzzer after a short time
         ThisThread::sleep_for(200ms);
@@ -190,7 +190,7 @@ void LCD_BackLight_Effect(){
     /********** LCD Backlight *********/
 
     for(float i=0; i<1.0f; i+=0.01){
-        disp.backlight_brightness(i);
+        lcd.backlight_brightness(i);
         ThisThread::sleep_for(20ms);
     }
 }
